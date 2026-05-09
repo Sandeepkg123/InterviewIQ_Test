@@ -21,8 +21,8 @@ function App() {
           withCredentials: true
         });
         console.log('User data fetched successfully:', result);
-        dispatch(setUserDate(result.data));
-        console.log('useeffect run');
+        dispatch(setUserDate(result.data.user));
+        
       } catch (error) {
         console.error('Error fetching user data:', error);
         dispatch(setUserDate(null));
