@@ -4,6 +4,7 @@ import connectDb from './config/connectDb.js';
 import cookieParser from 'cookie-parser';
 import authrouter from './routes/auth.route.js';
 import userRouter from './routes/user.route.js';
+import interviewRouter from './routes/interview.route.js';
 
 dotenv.config();
 import cors from 'cors';
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authrouter);
 app.use("/api/user", userRouter);
+app.use("/api/interview", interviewRouter);
 
 
 app.listen(PORT, () => {

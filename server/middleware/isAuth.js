@@ -8,6 +8,7 @@ const isAuth = (req, res, next) => {
         }
         const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
         if (!verifyToken) {
+            console.sole.error(verifyToken);
             return res.status(401).json({ message: "User does not have a valid token" });
         }
         req.userId = verifyToken.userId;
