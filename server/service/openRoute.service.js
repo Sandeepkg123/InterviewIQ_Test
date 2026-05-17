@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+
+
 export const askAi = async (messages) => {
     try {
         if(!messages || messages.length === 0||!Array.isArray(messages)) {
@@ -8,8 +10,8 @@ export const askAi = async (messages) => {
 
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions',
         {
-            model: 'qwen/qwen3-next-80b-a3b-instruct:free',
-            messages: messages
+            "model": "deepseek/deepseek-v4-flash:free",
+            "messages": messages
         },
         {
             headers: {

@@ -45,7 +45,14 @@ export const analyzeResume =async (req, res) => {
         ];
 
         const aiResponse = await askAi(messages);
-        const parsed= JSON.parse(aiResponse);
+        
+        // Clean JSON response - remove markdown code block formatting
+        let cleanedResponse = aiResponse.trim();
+        if (cleanedResponse.startsWith('```')) {
+            cleanedResponse = cleanedResponse.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '');
+        }
+        
+        const parsed = JSON.parse(cleanedResponse);
         fs.unlinkSync(filePath);
         res.json({
             role: parsed.role || '',
