@@ -22,11 +22,13 @@ function Auth({ismodel=false, onClose}) {
       let User=response.user;
       let name=User.displayName;
       let email=User.email;
+      console.log(User);
       const result=await axios.post(ServerUrl+"/api/auth/google",{name,email},{withCredentials:true});
+      console.log(result);
       dispatch(setUserDate(result.data.user));
       navigate('/');
     } catch (error) {
-      console.error("Error signing in with Google:", error);
+      console.error("Error signing in with firebase", error.response.data.message);
       dispatch(setUserDate(null));
     }
   };

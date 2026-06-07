@@ -14,14 +14,11 @@ import { useDispatch } from 'react-redux';
 import AuthModel from './AuthModel';
 
 
-
-
-
 function Navbar() {
     const {userDate} = useSelector((state) => state.user)
     const [showCreditPopup, setShowCreditPopup] = useState(false)
     const [showUserPopup, setShowUserPopup] = useState(false)
-    const navigate = useNavigate()
+    const navigate = useNavigate() 
     const dispatch = useDispatch()
     const [showAuth, setShowAuth] = useState(false)
 

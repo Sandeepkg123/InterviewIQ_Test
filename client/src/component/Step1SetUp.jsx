@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { use } from 'react'
 import {motion} from 'motion/react'
 import axios from 'axios'
 import { useState } from 'react'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { ServerUrl } from '../App'
+import { setUserDate } from '../redux/userSlice'
 import {
  FaUserTie ,
   FaBriefcase,
@@ -13,6 +15,8 @@ import {
 
 function Step1SetUp({onStart}) {
 
+  const {userDate} =useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [role, setRole] = useState('');
   const [experience, setExperience] = useState('');
   const [mode, setMode] = useState("Technical")
@@ -43,12 +47,42 @@ function Step1SetUp({onStart}) {
         setSkills(result.data.skills || []);
         setResumeText(result.data.text || "");
         setAnalysisDone(true);
+        setAnalyzing(false);
      
     } catch (error) {
       console.error('Error analyzing resume:', error);
+      setAnalyzing(false);
     } 
   };
 
+
+  const handleStart = async() => {
+    setLoading(true);
+    try {
+      const result = await axios.post(`${ServerUrl}/api/interview/generate-questions`, {
+        role,
+        experience,
+        mode,
+        resumeText,
+        projects,
+        skills
+      }, {
+        withCredentials: true
+      });
+      if(userDate){
+        dispatch(setUserDate({...userDate, 
+          credits:result.data.creditsLeft}));
+      }
+      setLoading(false);
+      onStart(result.data);
+
+
+      
+    } catch (error) {
+      console.error('Error generating questions:', error);
+      setLoading(false);
+    }
+  };
 
   return (
     <motion.div
@@ -249,14 +283,15 @@ function Step1SetUp({onStart}) {
               )}
 
             <motion.button
+            onClick={handleStart}
               disabled={!role || !experience}
               whileHover={{scale:1.03}}
               whileTap={{scale:0.95}}
               className='w-full mt-2 disabled:bg-gray-400 disabled:cursor-not-allowed bg-green-500 hover:bg-green-600
               text-white py-3 rounded-full text-lg font-semibold transition duration-300 shadow-md'
-              onClick={() => onStart({role, experience, mode})}
+             
             >
-              Start Interview
+             {loading ? "Starting..." : "Start Interview"}
             </motion.button>
 
           
@@ -265,9 +300,6 @@ function Step1SetUp({onStart}) {
 
 
           </motion.div>
-
-          
-
       </div>
 
     </motion.div>

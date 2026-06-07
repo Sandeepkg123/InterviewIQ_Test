@@ -23,10 +23,9 @@ function App() {
           withCredentials: true
         });
         console.log('User data fetched successfully:', result);
-        dispatch(setUserDate(result.data.user));
-        
+        dispatch(setUserDate(result.data.user));  
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching user data:', error.response?.data?.message);
         dispatch(setUserDate(null));
       }
     };
