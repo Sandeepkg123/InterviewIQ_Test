@@ -2,7 +2,7 @@ import User from "../model/user.model.js";
 import  genToken  from "../config/token.js";
 
 export const googleAuth = async (req, res) => {
-    try {
+    try{
         const {name, email,} = req.body;
         let user = await User.findOne({ email });
         if (!user) {
@@ -12,13 +12,14 @@ export const googleAuth = async (req, res) => {
         res.cookie("token", token, {
             httpOnly: true,
             secure: false,
-            sameSite: "strict",
+            sameSite: "lax",
+            path: "/",
             maxAge: 7 * 24 * 60 * 60 * 1000
-        })
+        });
         return res.status(200).json({user});
-    } catch (error) {
-        console.error("Error in googleAuth:", error);
-        return res.status(500).json({ message: "Internal Server Error" });  
+    }catch (error) {
+        console.error("Error in googleAuth:", error.message);
+        return res.status(500).json({ message: "Error in googleAuth:" });  
     }
 }
 

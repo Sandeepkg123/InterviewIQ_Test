@@ -7,6 +7,4 @@ authrouter.post("/google", googleAuth);
 authrouter.get("/logout", logout);
 
 
-
-
 export default authrouter;

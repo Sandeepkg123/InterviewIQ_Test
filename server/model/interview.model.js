@@ -2,15 +2,15 @@ import mongoose from "mongoose"
 
 
 const questionSchema = new mongoose.Schema({
-    question: string,
-    difficulty: string,
-    timeLimit: number,
-    answer: string,
-    feedback: string,
-    score:{type: Number, default: 0},
-    confidence:{type: Number, default: 0},
-    communication:{type: Number, default: 0},
-    correctness:{type: Number, default: 0},
+    question: { type: String },
+    difficulty: { type: String },
+    timeLimit: { type: Number },
+    answer: { type: String },
+    feedback: { type: String },
+    score: { type: Number, default: 0 },
+    confidence: { type: Number, default: 0 },
+    communication: { type: Number, default: 0 },
+    correctness: { type: Number, default: 0 },
 })
 
 
@@ -25,7 +25,7 @@ const interviewSchema = new mongoose.Schema({
     required: true,
   },
   experience: {
-    type: Number,
+    type: String,
     required: true,
     },
     mode: {
@@ -41,8 +41,8 @@ const interviewSchema = new mongoose.Schema({
     finalScore: {type: Number, default: 0},
     status: {
         type: String,
-        enum: ["pending", "completed"],
-        default: "Incomplete",
+        enum: ["pending", "completed", "Incomplete"],
+        default: "pending",
     },
 
 }, { timestamps: true });

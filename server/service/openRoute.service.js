@@ -8,9 +8,14 @@ export const askAi = async (messages) => {
             throw new Error('No messages provided');
         }
 
+        const apiKey = process.env.OPENROUTER_API_KEY;
+        if(!apiKey) {
+            throw new Error('OPENROUTER_API_KEY is not set in environment variables');
+        }
+
         const response = await axios.post('https://openrouter.ai/api/v1/chat/completions',
         {
-            "model": "deepseek/deepseek-v4-flash:free",
+            "model": "openai/gpt-oss-20b:free",
             "messages": messages
         },
         {

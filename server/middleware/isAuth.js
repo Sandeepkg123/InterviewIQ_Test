@@ -8,13 +8,13 @@ const isAuth = (req, res, next) => {
         }
         const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
         if (!verifyToken) {
-            console.sole.error(verifyToken);
+            console.error("Error in isAuth middleware:", verifyToken);
             return res.status(401).json({ message: "User does not have a valid token" });
         }
         req.userId = verifyToken.userId;
         next();
     } catch (error) {
-        console.error("Error in isAuth middleware:", error);
+        console.error("Error in isAuth middleware:", error.message);
         return res.status(500).json({ message: "Cannot access userId Server Error" });
     }
 }
